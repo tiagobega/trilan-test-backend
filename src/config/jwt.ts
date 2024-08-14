@@ -8,7 +8,7 @@ export function generateAccessToken(user: User) {
 
   // I'll keep the access token valid for a long time because I'm using a free vercel database
   return jwt.sign({ userId: user.id }, process.env.JWT_ACCESS_SECRET, {
-    expiresIn: 168, // 7 days
+    expiresIn: '7d', // 7 days
   });
 }
 
@@ -20,11 +20,10 @@ export function generateRefreshToken(user: User, jwtId: string) {
   return jwt.sign(
     {
       userId: user.id,
-      jwtId,
     },
     process.env.JWT_REFRESH_SECRET,
     {
-      expiresIn: 168, // 7 days
+      expiresIn: '7d', // 7 days
     }
   );
 }

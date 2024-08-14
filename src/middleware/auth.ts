@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import { ZodError } from 'zod';
 import { ERROR_TYPE, HttpError, Unauthorized } from '../constants/Errors';
-import { refreshTokenPayloadSchema } from '../constants/schemas';
+import { accessTokenPayloadSchema } from '../constants/schemas';
 
 export function auth(req: Request, res: Response, next: NextFunction) {
   const { authorization } = req.headers;
@@ -30,7 +31,7 @@ export function auth(req: Request, res: Response, next: NextFunction) {
       throw new Error('Please define JWT_ACCESS_SECRET in .env file');
     }
 
-    const payload = refreshTokenPayloadSchema.parse(
+    const payload = accessTokenPayloadSchema.parse(
       jwt.verify(token, process.env.JWT_ACCESS_SECRET)
     );
 
@@ -39,6 +40,10 @@ export function auth(req: Request, res: Response, next: NextFunction) {
   } catch (err) {
     if (err instanceof HttpError) {
       return res.status(err.httpStatus).json({ errors: err.issues });
+    }
+
+    if (err instanceof ZodError) {
+      return res.status(401).json({ errors: err.issues });
     }
 
     const error = new Unauthorized([

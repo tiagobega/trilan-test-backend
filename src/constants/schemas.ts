@@ -20,6 +20,10 @@ export const refreshTokenPayloadSchema = z.object({
   jwtId: z.string(),
 });
 
+export const accessTokenPayloadSchema = z.object({
+  userId: z.string(),
+});
+
 export const refreshTokenRevokeSchema = z.object({
   userId: z.string(),
 });
