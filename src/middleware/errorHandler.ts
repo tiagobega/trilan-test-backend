@@ -10,6 +10,4 @@ export const errorHandler = (error: Error, req: Request, res: Response) => {
   if (error instanceof HttpError) {
     return res.status(error.httpStatus).json({ errors: error.issues });
   }
-
-  return res.status(500).json({ errors: error.message });
 };

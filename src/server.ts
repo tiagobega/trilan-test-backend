@@ -32,8 +32,8 @@ application.use(corsHandler);
 logging.info('Define Routes');
 defineRoutes([MainController, AuthController, UserController], application);
 
-application.use(errorHandler);
 application.use(routeNotFound);
+application.use(errorHandler);
 
 if (SERVER.isDevelopment) {
   logging.info('Start Server');

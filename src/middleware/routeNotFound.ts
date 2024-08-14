@@ -1,7 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
+import { ERROR_TYPE, NotFound } from '../constants/Errors';
 
 export function routeNotFound(req: Request, res: Response, next: NextFunction) {
-  const error = new Error('Route Not Found');
+  const error = new NotFound([
+    {
+      code: ERROR_TYPE.NOT_FOUND_DATA,
+      message: 'Route Not Found',
+    },
+  ]);
 
-  return res.status(404).json({ error: error.message });
+  res.status(error.httpStatus).json({ errors: error.issues });
 }
