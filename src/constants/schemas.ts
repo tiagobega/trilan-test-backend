@@ -27,3 +27,9 @@ export const accessTokenPayloadSchema = z.object({
 export const refreshTokenRevokeSchema = z.object({
   userId: z.string(),
 });
+
+export const updateUserSchema = z.object({
+  name: z.string().optional(),
+  userName: z.string().optional(),
+  email: z.string().optional(),
+});
